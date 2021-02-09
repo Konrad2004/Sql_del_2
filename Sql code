@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bilregister-database</title>
+</head>
+<style>
+ th{
+   border: 3px solid #000;
+ }
+ td{
+   border: 3px solid #000;
+ }
+</style>
+<body>
+<h1> Bilregister database</h1>
+
+<div> <?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "bilregister";
+
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// Check connection
+if (!$conn) {
+  die("Connection failed: " . mysqli_connect_error());
+}
+
+$sql = "SELECT personr, fornavn, etternavn FROM person";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) {
+  // output data of each row
+  echo '<table style="width:25%; border: 2px solid #000;">';
+  echo '<tr style="background-color:#C0C0C0; color:#FFFFFF;">';
+  echo ' <th> Person nr</th>';
+  echo ' <th> Fornavn</th>';
+  echo ' <th> Etternavn</th>';
+  echo '</tr>';
+  while($row = mysqli_fetch_assoc($result)) {
+    if ($row["personr"]%2 == 0) {
+      echo '<tr style="text-align:center; background-color: #C0C0C0;">';
+    }
+    else {
+      echo '<tr style="text-align:center; ">';
+    }
+    echo "<td>" . $row["personr"]. "</td>";
+    echo "<td>" . $row["fornavn"]. "</td>";
+    echo "<td>" . $row["etternavn"] . "</td>";
+  echo "</tr>";
+  }
+  echo "</table>";
+} else {
+  echo "0 results";
+}
+
+
+mysqli_close($conn);
+?> </div>
+</body>
+</html>
